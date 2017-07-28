@@ -764,6 +764,8 @@ blockStatement
     ;
 
 
+
+
 localVariableDeclarationStatement
     :   localVariableDeclaration
         SEMI
@@ -1053,7 +1055,8 @@ primary
 locals [int operationType]
     :    parExpression                                      {$operationType = 1;}
     |    THIS (DOT Identifier)* (thisSuffix)?               {$operationType = 2;}
-    |    Identifier (DOT Identifier)* (identifierSuffix)?   {$operationType = 3;}
+        // replace with "Identifier (DOT Identifier)*"
+    |    id (identifierSuffix)?                             {$operationType = 3;}
     |    SUPER superSuffix                                  {$operationType = 4;}
     |    literal                                            {$operationType = 5;}
     |    creator                                            {$operationType = 6;}
@@ -1257,8 +1260,12 @@ typeVariable
     :   (annotation)* Identifier
     ;
 
+id
+    : Identifier (DOT Identifier)*
+    ;
+
 typeName
-    :   Identifier (DOT Identifier)*
+    :   id
     ;
 
 arrayType

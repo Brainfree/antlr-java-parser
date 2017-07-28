@@ -506,19 +506,19 @@ WhiteSpace
     :    (' '
     |    '\u0009'                                        // the ASCII HT character, also known as "horizontal tab"
     |    '\u000C'                                        // the ASCII FF character, also known as "form feed"
-    |    LineTerminator)  -> channel(WHITESPACE)                                // LineTerminator
+    |    LineTerminator)  -> channel(1)                                // LineTerminator
     ;
 
 LineTerminator
     :    ('\r\n'
     |    '\n'
-    |    '\r')          -> channel(WHITESPACE)
+    |    '\r')          -> channel(1)
     ;
 
 SlashComment
-    :    '/*' .*? '*/' LineTerminator* -> channel(COMMENTS) // match anything between /* and */
+    :    '/*' .*? '*/' LineTerminator* -> channel(2) // match anything between /* and */
     ;
 
 EndOfLineComment
-    :    '//' .*? LineTerminator+ -> channel(COMMENTS)
+    :    '//' .*? LineTerminator+ -> channel(2)
     ;

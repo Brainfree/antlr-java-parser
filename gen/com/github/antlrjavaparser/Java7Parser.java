@@ -1,3 +1,5 @@
+// Generated from C:/Users/Jamie/teacup/antlrJavaParser/src/main/java/com/github/antlrjavaparser\Java7Parser.g4 by ANTLR 4.7
+package com.github.antlrjavaparser;
 
 package com.github.antlrjavaparser;
 

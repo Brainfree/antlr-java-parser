@@ -99,6 +99,29 @@ public class JavaParser {
         return listener.getCompilationUnit();
     }
 
+    public static Java7Parser getParser(InputStream in) throws IOException {
+        Java7Lexer lex = new Java7Lexer(new ANTLRInputStream(in));
+        CommonTokenStream tokens = new CommonTokenStream(lex);
+
+        Java7Parser parser = new Java7Parser(tokens);
+
+        // Define new cache
+        PredictionContextCache cache = new PredictionContextCache();
+
+        // Define new/clean DFA array
+        DFA[] decisionToDFA = new DFA[parser.getATN().getNumberOfDecisions()];
+        for (int i = 0; i < parser.getATN().getNumberOfDecisions(); i++) {
+            decisionToDFA[i] = new DFA(parser.getATN().getDecisionState(i), i);
+        }
+
+        parser.setInterpreter(new ParserATNSimulator(parser, parser.getATN(), decisionToDFA, cache));
+
+        parser.getInterpreter().setPredictionMode(PredictionMode.SLL);
+
+        return parser;
+    }
+
+
     /**
      * Parses the Java code contained in a {@link File} and returns
      * a {@link CompilationUnit} that represents it.
